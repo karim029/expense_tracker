@@ -1,6 +1,3 @@
-Certainly! Below is a GitHub README file template for your Flutter expense tracker app. Feel free to adjust and expand upon it as needed:
-
----
 
 # Expense Tracker App
 
@@ -78,7 +75,3 @@ Contributions are welcome! If you have suggestions, feature requests, or find an
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
----
-
-Feel free to enhance this README with additional sections or customize it according to your project's needs. Happy coding! 🚀
