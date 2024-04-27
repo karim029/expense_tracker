@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/widgets/expenses.dart';
-//import 'package:flutter/services.dart';
 
+// Define custom color schemes for light and dark themes
 var kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 96, 59, 181),
 );
@@ -12,38 +12,14 @@ var kDarkColorScheme = ColorScheme.fromSeed(
 );
 
 void main() {
-  // Lock screen orientation
-  // WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.portraitUp,
-  // ]).then((fn) {
-    runApp(
-      MaterialApp(
-        darkTheme: ThemeData.dark().copyWith(
-            colorScheme: kDarkColorScheme,
-            cardTheme: const CardTheme().copyWith(
-              color: kDarkColorScheme.secondaryContainer,
-              elevation: 3,
-              margin: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
-            ),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: kDarkColorScheme.primaryContainer,
-                foregroundColor: kDarkColorScheme.onPrimaryContainer,
-              ),
-            )),
-        theme: ThemeData().copyWith(
-          colorScheme: kColorScheme,
-          appBarTheme: const AppBarTheme().copyWith(
-            backgroundColor: kColorScheme.onPrimaryContainer,
-            foregroundColor: kColorScheme.primaryContainer,
-            elevation: 3,
-          ),
+  // Main entry point of the application
+  runApp(
+    MaterialApp(
+      // Define dark theme settings
+      darkTheme: ThemeData.dark().copyWith(
+          colorScheme: kDarkColorScheme, // Apply custom dark color scheme
           cardTheme: const CardTheme().copyWith(
-            color: kColorScheme.secondaryContainer,
+            color: kDarkColorScheme.secondaryContainer,
             elevation: 3,
             margin: const EdgeInsets.symmetric(
               horizontal: 16,
@@ -52,20 +28,43 @@ void main() {
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              backgroundColor: kColorScheme.primaryContainer,
+              backgroundColor: kDarkColorScheme.primaryContainer,
+              foregroundColor: kDarkColorScheme.onPrimaryContainer,
             ),
-          ),
-          textTheme: ThemeData().textTheme.copyWith(
-                titleLarge: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: kColorScheme.onSecondaryContainer,
-                  fontSize: 16,
-                ),
-              ),
+          )),
+      // Define light theme settings
+      theme: ThemeData().copyWith(
+        colorScheme: kColorScheme, // Apply custom light color scheme
+        appBarTheme: const AppBarTheme().copyWith(
+          backgroundColor: kColorScheme.onPrimaryContainer,
+          foregroundColor: kColorScheme.primaryContainer,
+          elevation: 3,
         ),
-        themeMode: ThemeMode.system,
-        home: const Expenses(),
+        cardTheme: const CardTheme().copyWith(
+          color: kColorScheme.secondaryContainer,
+          elevation: 3,
+          margin: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kColorScheme.primaryContainer,
+          ),
+        ),
+        textTheme: ThemeData().textTheme.copyWith(
+              titleLarge: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: kColorScheme.onSecondaryContainer,
+                fontSize: 16,
+              ),
+            ),
       ),
-    );
-  // });
+      // Set theme mode to system default (light or dark based on system settings)
+      themeMode: ThemeMode.system,
+      // Set the home widget to be displayed first (Expenses widget in this case)
+      home: const Expenses(),
+    ),
+  );
 }

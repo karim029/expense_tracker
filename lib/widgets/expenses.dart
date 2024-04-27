@@ -1,22 +1,27 @@
-//Todo Expenses widget
-
+// Import necessary packages
 import 'package:expense_tracker/widgets/chart/chart.dart';
 import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
 
+// Define the Expenses widget as a StatefulWidget
 class Expenses extends StatefulWidget {
+  // Constructor for the Expenses widget
   const Expenses({
     super.key,
   });
+
+  // Create the state for the Expenses widget
   @override
   State<Expenses> createState() {
     return _ExpensesState();
   }
 }
 
+// Define the state for the Expenses widget
 class _ExpensesState extends State<Expenses> {
+  // Initialize a list of registered expenses
   final List<Expense> _registeredExpenses = [
     Expense(
       title: 'flutter Course',
@@ -32,6 +37,7 @@ class _ExpensesState extends State<Expenses> {
     )
   ];
 
+  // Function to open the add expense overlay
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       constraints: const BoxConstraints(maxWidth: double.infinity),
@@ -44,12 +50,14 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 
+  // Function to add an expense to the list of registered expenses
   void _addExpense(Expense expense) {
     setState(() {
       _registeredExpenses.add(expense);
     });
   }
 
+  // Function to remove an expense from the list of registered expenses
   void _removeExpense(Expense expense) {
     final expenseIndex = _registeredExpenses.indexOf(expense);
     setState(() {
@@ -74,14 +82,17 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 
+  // Build the widget tree for the Expenses widget
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
+    // Initialize the main content widget
     Widget mainContent = const Center(
       child: Text('No expenses was found, start adding some!'),
     );
 
+    // If there are registered expenses, display the ExpensesList widget
     if (_registeredExpenses.isNotEmpty) {
       mainContent = ExpensesList(
         expenses: _registeredExpenses,
@@ -89,6 +100,7 @@ class _ExpensesState extends State<Expenses> {
       );
     }
 
+    // Return the Scaffold widget with the app bar and body
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -104,7 +116,7 @@ class _ExpensesState extends State<Expenses> {
         ],
       ),
       body: width < 600
-          ? Column(
+         ? Column(
               children: [
                 Chart(expenses: _registeredExpenses),
                 Expanded(

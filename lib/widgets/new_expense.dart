@@ -1,13 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/widgets.dart';
 import 'package:expense_tracker/widgets/buttons/reusable_widgets.dart';
+import 'package:flutter/cupertino.dart';
 
-
-
+// This class creates a new expense form for the user to input expense details
 class NewExpense extends StatefulWidget {
   const NewExpense({required this.onAddExpense, super.key});
 
+  // This function is called when the user submits the form with valid input
   final void Function(Expense expense) onAddExpense;
 
   @override
@@ -15,11 +18,20 @@ class NewExpense extends StatefulWidget {
 }
 
 class _NewExpenseState extends State<NewExpense> {
+
+  // Text editing controller for the title input field
   final _titleController = TextEditingController();
+  
+  // Text editing controller for the amount input field
   final _amountController = TextEditingController();
+
+  // Selected date for the expense
   DateTime? _selectedDate;
+
+  // Selected category for the expense
   Category _selectedCategory = Category.leisure;
 
+  // This function presents a date picker to the user
   void _presentDatePicker() async {
     final now = DateTime.now();
     final firstDate = DateTime(
@@ -37,14 +49,26 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
-  void _submitExpenseData() {
-    //data validation for the user input
-    final enteredAmount = double.tryParse(_amountController.text);
-    final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
-    if (_titleController.text.trim().isEmpty ||
-        amountIsInvalid ||
-        _selectedDate == null) {
-      //show an error message
+  // This function shows an error dialog to the user when the input is invalid
+  void _showDialog() {
+    if (Platform.isIOS) {
+      showCupertinoDialog(
+        context: context,
+        builder: (ctx) => CupertinoAlertDialog(
+          title: const Text('Invalid input'),
+          content: const Text(
+              'Please make sure a valid title, amount, date and category was entered'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('Okay'),
+            ),
+          ],
+        ),
+      );
+    } else {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -61,6 +85,19 @@ class _NewExpenseState extends State<NewExpense> {
           ],
         ),
       );
+    }
+  }
+
+  // This function validates and submits the expense data
+  void _submitExpenseData() {
+    //data validation for the user input
+    final enteredAmount = double.tryParse(_amountController.text);
+    final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
+    if (_titleController.text.trim().isEmpty ||
+        amountIsInvalid ||
+        _selectedDate == null) {
+      //show an error message using the device native features (cupertino for ios)
+      _showDialog();
       return;
     }
     widget.onAddExpense(
